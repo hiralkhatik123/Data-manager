@@ -1,0 +1,286 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .main_form{
+        
+        
+    }
+    .form1{
+        height: 8vh;
+        width: 111vh;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        padding: 3vh 3vh 2vh 4vh;
+    }
+    .form2{
+        height: 8vh;
+        width: 111vh;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        padding: 3vh 3vh 2vh 4vh;
+        position: relative;
+        top: -4vh;
+    }
+    input{
+        width: 30vh;
+        height: 4vh;
+        border-radius: 8px;
+
+    }
+    #btn{
+        cursor: pointer;
+        width: 16vh;
+        height: 5vh;
+        border-radius: 8px;
+        position: relative;
+        left: 50vh;
+        top: 7vh;
+        background-color: blue;
+        border: 3px solid red;
+    }
+    #divide{
+        position: relative;
+        left: 37vh;
+    }
+    #total{
+        position: relative;
+        left: 24vh;
+    }
+    ul{
+        display: flex;
+    }
+    ul li{
+        list-style: none;
+        margin: 0 13px;
+    }
+    table ,td ,tr{
+        border: 2px solid black;
+        border-collapse: collapse;
+        padding: 5px 13px;
+    }
+    table{
+        position: relative;
+        top: 11vh;
+        left: 5vh;
+    }
+    img{
+        height: 14px;
+        width: 14px;
+        position: relative;
+        top: 0vh;
+        left: -1vh;
+        cursor: pointer;
+
+    }
+    .main_container{
+        width: 117vh;
+        color: darkblue;
+        padding: 4vh;
+        height: 41vh;
+        font-weight: 599;
+    }
+    h2{
+        position: relative;
+        left: 11vh;
+        color: brown;
+    }
+    .database{
+        display: block;
+        justify-content: center;
+    }
+    .main_form {
+        height: 30vh;
+        position: relative;
+        left: -1vh;
+    }
+    #id{
+        width: 4vh;
+        height: 4vh;
+        position: relative;
+        left: 6vh;
+    }
+    .btnsm{
+        background-color: black;
+        color: white;
+        font-size: 15px;
+        font-weight: 900;
+        border-radius: 7px;
+        border: 2px solid red;
+        margin: 25px 0;
+        cursor: pointer;
+    }
+    
+</style>
+<body>
+    <div class="database">
+        <h2>Calculation your Iteams</h2>    
+            <div class="main_container">
+                <form name="myform" method="post" id="form">
+                    <div class="main_form">
+                        <input placeholder="ID" id="id">
+                        <div class="form1">
+                            <label for="Name">Name:</label>
+                            <input placeholder="Name" id="Name">
+                            <label for="Iteam">Iteam:</label>
+                            <input placeholder="Iteam" id="Iteam">
+                            <label for="Amount">Amount:</label>
+                            <input placeholder="Amount" id="Amount">
+                        </div>
+                        <div class="form2">
+                            <label for="Name">Name2:</label>
+                            <input placeholder="Name" id="Name2">
+                            <label for="Iteam">Iteam2:</label>
+                            <input placeholder="Iteam" id="Iteam2">
+                            <label for="Amount">Amount2:</label>
+                            <input placeholder="Amount" id="Amount2">
+                        </div>
+                
+                    </div>
+                    <label for="Password">Password:</label>
+                    <input type="Password" id="Password" name="Password" placeholder="Password" required>
+                    <label for="Total">Total:</label>
+                    <input placeholder="Total" id="Total" name="result">
+                    <label for="Divide">Divide:</label>
+                    <input placeholder="Divide" id="Divide" name="divide">
+                </form>
+                    <button class="btn" id="btn" onclick="fun()">Add</button>
+                    
+            </div>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Name2</th>
+                <th>Iteam</th>
+                <th>Iteam2</th>
+                <th>Password</th>
+                <th>Total Amount</th>
+                <th>Divide</th>
+                <th>Delete</th>
+            </tr>
+        </table>
+    </div>
+</body>
+<script>
+    
+    function fun(){
+        form3 = document.getElementById('form3');
+        
+        Amount = parseInt(myform.Amount.value);
+        Amount2 = parseInt(myform.Amount2.value);
+        result = Amount+Amount2;
+        myform.result.value = result;
+
+        Amount = parseInt(myform.Amount.value);
+        Amount2 = parseInt(myform.Amount2.value);
+        divide = (result)/2;
+        myform.divide.value = divide;
+        
+    }
+
+
+    function maskPassword(pass){
+        let str=""
+        for(let index=0;index<pass.length;index++){
+            str+="*"
+        }
+        return str
+    }
+    function copyText(txt){
+        navigator.clipboard.writeText(txt).then(
+            () => {
+                alert("Copied text: " + txt);
+            },
+            () => {
+                alert("failed")
+            },
+        );
+    }
+
+    const deletePassword = (Name)=>{
+        let data = localStorage.getItem("passwords")
+        let arr = JSON.parse(data);
+        arrUpdated = arr.filter((e)=>{
+            return e.Name !=Name
+        })
+        localStorage.setItem("passwords",JSON.stringify(arrUpdated))
+        alert(`Successfully deleted  ${Name}'s All Iteams`)
+        showPassword()
+    }
+    const showPassword = ()=>{
+    let tb = document.querySelector("table")
+    let data = localStorage.getItem("passwords")
+    if(data==null ||JSON.parse(data).length==0){
+        tb.innerHTML = "PLz Fill Up Form"
+    }else{
+        tb.innerHTML = `<tr>
+            <th>id</th>
+            <th>Name</th>
+            <th>Name2</th>
+            <th>Iteam</th>
+            <th>Iteam2</th>
+            <th>Password</th>
+            <th>Total Amount</th>
+            <th>Divide</th>
+            <th>Delete</th>
+            </tr>`
+        let arr = JSON.parse(data);
+        let str = ""
+        for(let index = 0;index<arr.length;index++){
+            const element = arr[index];
+                str += `<tr>
+                    <td>${element.id} <img onclick="copyText('${element.id}')" src="imagesss/copy1.svg" alt="Copy Button" width="14" height="14"></td>
+                    <td>${element.Name} <img onclick="copyText('${element.Name}')" src="imagesss/copy1.svg" alt="Copy Button" width="14" height="14"></td>
+                    <td>${element.Name2} <img onclick="copyText('${element.Name2}')" src="imagesss/copy1.svg" alt="Copy Button" width="14" height="14"></td>
+                    <td>${element.Iteam} <img onclick="copyText('${element.Iteam}')" src="/imagesss/copy1.svg" alt="Copy Button" width="100" height="100"></td>
+                    <td>${element.Iteam2} <img onclick="copyText('${element.Iteam2}')" src="/imagesss/copy1.svg" alt="Copy Button" width="100" height="100"></td>
+                    <td>${maskPassword(element.Password)} <img onclick="copyText('${element.Password}')" src="imagesss/copy1.svg" alt="Copy Button" width="100" height="100"></td>
+                    <td>${element.Total} <img onclick="copyText('${element.Total}')" src="/imagesss/copy1.svg" alt="Copy Button" width="100" height="100"></td>
+                    <td>${element.Divide} <img onclick="copyText('${element.Divide}')" src="/imagesss/copy1.svg" alt="Copy Button" width="100" height="100"></td>
+                    <td><button class="btnsm" onclick="deletePassword('${element.Name}')">Delete</button></td>
+                    </tr>`
+            }
+        tb.innerHTML = tb.innerHTML +str
+    }
+        id.value = ""
+        Name.value = ""
+        Name2.value = ""
+        Iteam.value = ""
+        Iteam2.value = ""
+        Password.value = ""
+        Total.value = ""
+        Divide.value = ""
+    }
+    showPassword();
+    document.querySelector(".btn").addEventListener('click',(e)=>{
+        e.preventDefault();
+        console.log(id.value,Name.value,Name2.value,Iteam.value,Iteam2.value,Amount.value,Amount2.value,Total.value,
+        Divide.value,Password.value)
+        let passwords = localStorage.getItem("passwords")
+        console.log(passwords)
+
+        if(passwords==null){
+            let json = []
+            json.push({id:id.value, Name:Name.value,Name2:Name2.value,Iteam:Iteam.value,Iteam2:Iteam2.value, Total:Total.value,Divide:Divide.value,Password:Password.value})
+            alert("All Iteam saved")
+            localStorage.setItem("passwords",JSON.stringify(json))
+        }else{
+            let json = JSON.parse(localStorage.getItem("passwords"))
+            json.push({id:id.value,Name:Name.value,Name2:Name2.value,Iteam:Iteam.value,Iteam2:Iteam2.value, Total:Total.value,Divide:Divide.value,Password:Password.value})
+            alert("All Iteam saved")
+            localStorage.setItem("passwords",JSON.stringify(json))
+        }
+        showPassword();
+    })
+
+    
+</script>
+</html>

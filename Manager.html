@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database</title>
+</head>
+<style>
+    *{
+        padding: 0;
+        margin: 0;
+    }
+    nav{
+        background-color: black;
+        color: white;
+        height: 8vh;
+        display: flex;
+        font-size: 3vh;
+        align-items: center;
+        cursor: pointer;
+    }
+    ul{
+        display: flex;
+    }
+    ul li{
+        list-style: none;
+        margin: 0 13px;
+        
+    }
+    nav ul li:hover{
+        list-style: none;
+        margin: 0 13px;
+        color: red;
+    }
+    ul li a{
+        list-style: none;
+        margin: 0 13px;
+        text-decoration: none;
+        color: white;
+    }
+    table ,td ,tr{
+        border: 2px solid black;
+        border-collapse: collapse;
+        padding: 5px 13px;
+        
+    }
+    .container{
+        max-width: 80vw;
+        margin: 23px auto;
+    }
+    h1{
+        margin: 23px;
+        color: blue;
+        font-weight: 900;
+    }
+    .btn{
+        background-color: red;
+        color: white;
+        font-size: 20px;
+        font-weight: 900;
+        border-radius: 7px;
+        border: 2px solid black;
+        padding: 8px 17px;
+        margin: 25px 0;
+        cursor: pointer;
+        width: 13vh;
+        height: 5vh;
+    }
+    .btn:hover{
+        background-color: white;
+        color: red;
+        border: 2px solid black;
+        
+    }
+    .btnsm{
+        background-color: red;
+        color: white;
+        font-size: 16px;
+        font-weight: 900;
+        border-radius: 7px;
+        border: 2px solid black;
+        margin: 25px 0;
+        cursor: pointer;
+        width: 11vh;
+        height: 5vh;
+    }
+    .btnsm:hover{
+        background-color: white;
+        color: red;
+        border: 2px solid black;
+    }
+    img{
+        height: 14px;
+        width: 14px;
+        position: relative;
+        top: -4vh;
+        left: 1vh;
+        cursor: pointer;
+
+    }
+    #id{
+        width: 4vh;
+        height: 4vh;
+        position: relative;
+        left: 0vh;
+    }
+</style>
+<body>
+    <nav>
+        <ul>
+            <li><a href="./Manager.html">Home</a></li>
+            <li><a href="./manager2.html">Check it</a></li>
+            
+        </ul>
+    </nav>
+    <div class="container">
+        <h1>Save your data and password</h1>
+        
+        <h2>Add Password</h2>
+        <form action="/manager2.html" method="post" id="form">
+            <input placeholder="ID" id="id">
+            <label for="Name">Name:</label>
+            <input type="text" id="Name" name="Name" required>
+            <br><br>
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" required>
+            <br><br>
+            <p>Text Area:</p><label for="text"><textarea name="text" id="text" cols="30" rows="10"></textarea>:</label>
+            
+            <br><br>
+            <label for="Password">Password:</label>
+            <input type="Password" id="Password" name="Password" required>
+        </form>
+        <button type="submit"class="btn">Add</button>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Title</th>
+                <th>TextArea</th>
+                <th>Password</th>
+                <th>Delete</th>
+            </tr>
+            
+        </table> 
+        
+        
+    </div>
+</body>
+<script>
+
+    function maskPassword(pass){
+        let str=""
+        for(let index=0;index<pass.length;index++){
+            str += "*"
+        }
+        return str 
+        
+    }
+    
+    function copyText(txt){
+        navigator.clipboard.writeText(txt).then(
+            () => {
+                alert("Copied text:" + txt);
+            },
+            () => {
+                alert("failed")
+            },
+        );
+    }
+
+    const deletePassword = (Name)=>{
+        let data = localStorage.getItem("passwords")
+        let arr = JSON.parse(data);
+        arrUpdated = arr.filter((e)=>{
+            return e.Name !=Name
+        })
+        localStorage.setItem("passwords",JSON.stringify(arrUpdated))
+        alert(`Successfully deleted ${Name} Data`)
+        showPassword()
+    }
+    const showPassword = ()=>{
+    let tb = document.querySelector("table")
+    let data = localStorage.getItem("passwords")
+    if(data==null ||JSON.parse(data).length==0){
+        tb.innerHTML = "Plz Fill up Form"
+    }else{
+        tb.innerHTML = `<tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Title</th>
+            <th>TextArea</th>
+            <th>Password</th>
+            <th>Delete</th>
+        </tr>`
+        let arr = JSON.parse(data);
+        let str = ""
+        for(let index = 0;index<arr.length;index++){
+            const element = arr[index];
+                str += `<tr>
+                <td>${element.id} <img onclick="copyText('${element.id}')" src="imagesss/copy1.svg" alt="Copy Button" width="14" height="14"></td>
+                <td>${element.Name} <img onclick="copyText('${element.Name}')" src="imagesss/copy1.svg" alt="Copy Button" width="14" height="14"></td>
+                <td>${element.title} <img onclick="copyText('${element.title}')" src="/imagesss/copy1.svg" alt="Copy Button" width="100" height="100"></td>
+                <td>${element.text} <img onclick="copyText('${element.text}')" src="/imagesss/copy1.svg" alt="Copy Button" width="100" height="100"></td>
+                <td>${maskPassword(element.Password)} <img onclick="copyText('${element.Password}')" src="imagesss/copy1.svg" alt="Copy Button" width="100" height="100"></td>
+                <td><button class="btnsm" onclick="deletePassword('${element.Name}')">Delete</button></td>
+                </tr>`
+            }
+        tb.innerHTML = tb.innerHTML  +str
+    }
+    id.value = ""
+    Name.value = ""
+    title.value = ""
+    text.value = ""
+    Password.value = ""
+    }
+    showPassword();
+    document.querySelector(".btn").addEventListener('click',(e)=>{
+        e.preventDefault();
+        console.log(id.value,Name.value,title.value,text.value,Password.value)
+        let passwords = localStorage.getItem("passwords")
+        console.log(passwords)
+
+        if(passwords==null){
+            let json = []
+            json.push({id:id.value,Name:Name.value,title:title.value,text:text.value, Password:Password.value})
+            alert("Data saved")
+            localStorage.setItem("passwords",JSON.stringify(json))
+        }else{
+            let json = JSON.parse(localStorage.getItem("passwords"))
+            json.push({id:id.value, Name:Name.value,title:title.value,text:text.value, Password:Password.value})
+            alert("Data saved")
+            localStorage.setItem("passwords",JSON.stringify(json))
+        }
+        showPassword();
+    })
+</script>
+</html>
