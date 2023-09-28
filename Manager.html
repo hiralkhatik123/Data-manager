@@ -169,14 +169,14 @@
         );
     }
 
-    const deletePassword = (Name)=>{
+    const deletePassword = (id)=>{
         let data = localStorage.getItem("passwords")
         let arr = JSON.parse(data);
         arrUpdated = arr.filter((e)=>{
-            return e.Name !=Name
+            return e.id !=id
         })
         localStorage.setItem("passwords",JSON.stringify(arrUpdated))
-        alert(`Successfully deleted ${Name} Data`)
+        alert(`Successfully deleted ${id} Data`)
         showPassword()
     }
     const showPassword = ()=>{
@@ -198,12 +198,12 @@
         for(let index = 0;index<arr.length;index++){
             const element = arr[index];
                 str += `<tr>
-                <td>${element.id} <img onclick="copyText('${element.id}')" src="imagesss/copy1.svg" alt="Copy Button" width="14" height="14"></td>
-                <td>${element.Name} <img onclick="copyText('${element.Name}')" src="imagesss/copy1.svg" alt="Copy Button" width="14" height="14"></td>
-                <td>${element.title} <img onclick="copyText('${element.title}')" src="/imagesss/copy1.svg" alt="Copy Button" width="100" height="100"></td>
-                <td>${element.text} <img onclick="copyText('${element.text}')" src="/imagesss/copy1.svg" alt="Copy Button" width="100" height="100"></td>
-                <td>${maskPassword(element.Password)} <img onclick="copyText('${element.Password}')" src="imagesss/copy1.svg" alt="Copy Button" width="100" height="100"></td>
-                <td><button class="btnsm" onclick="deletePassword('${element.Name}')">Delete</button></td>
+                <td>${element.id} <img onclick="copyText('${element.id}')" src="/Data-manager/copy.svg" alt="Copy Button" width="14" height="14"></td>
+                <td>${element.Name} <img onclick="copyText('${element.Name}')" src="/Data-manager/copy.svg" alt="Copy Button" width="14" height="14"></td>
+                <td>${element.title} <img onclick="copyText('${element.title}')" src="/Data-manager/copy.svg" alt="Copy Button" width="100" height="100"></td>
+                <td>${element.text} <img onclick="copyText('${element.text}')" src="/Data-manager/copy.svg" alt="Copy Button" width="100" height="100"></td>
+                <td>${maskPassword(element.Password)} <img onclick="copyText('${element.Password}')" src="/Data-manager/copy.svg" alt="Copy Button" width="100" height="100"></td>
+                <td><button class="btnsm" onclick="deletePassword('${element.id}')">Delete</button></td>
                 </tr>`
             }
         tb.innerHTML = tb.innerHTML  +str
